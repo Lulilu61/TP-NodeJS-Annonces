@@ -1,8 +1,8 @@
 const express = require('express'); 
 const app = express(); 
 const PORT = process.env.PORT;
-const initRoutes = require('./routes');
-require('dotenv').config();
+const initRoutes = require('dotenv').config();
+
 
 app.use(express.json());
 

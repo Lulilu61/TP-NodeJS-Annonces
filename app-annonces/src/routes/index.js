@@ -1,17 +1,8 @@
-// Centraliser l'ensemble des routes et imbriquers les routes dans une fonction pour l'utiliser dans app.js
+const Sequelize = require ('sequelize');
 
-const annoncesRoutes = require('./annonces');
-//const userRoutes = require('./users');
+const sequelize = new Sequelize(`mariadb://${process.env.MARIADB_USERNAME}:${process.env.MARIADB_PASSWORD}@${process.env.MARIADB_HOST}:${process.env.MARIADB_PORT}/${process.env.MARIADB_DATABASE}`)
 
-const initRoutes = (app) => {
-    app.use('/home', (req, res, next) => {
-    res.status(200).json({
-        message: 'Hello World !'
-    });
-});
-    app.use('/annonces', annoncesRoutes);
-    app.use('/users', userRoutes);
-   //app.use(userRoutes);
+module.exports = {
+    Sequelize,
+    sequelize
 }
-
-module.exports = initRoutes;
