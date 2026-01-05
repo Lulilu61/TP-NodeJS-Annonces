@@ -54,6 +54,6 @@ docker compose run app-annonces-node npm install
 
 **Arrêter le projet :** docker compose stop
 
-**Tout supprimer (nettoyage) :** docker compose down
+**Tout supprimer (nettoyage) :** docker compose down OU docker compose down --remove orphans si WARN found orphan container au lancement des dockers
 
 **Voir les logs :** docker compose logs -f app-annonces-node
