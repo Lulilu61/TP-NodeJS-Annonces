@@ -25,3 +25,35 @@ Ouvrez votre terminal Ubuntu et exécutez :
 ```bash
 git clone [https://github.com/Lulilu61/TP-NodeJS-Annonces.git](https://github.com/Lulilu61/TP-NodeJS-Annonces.git)
 cd TP-NodeJS-Annonces
+```
+
+### 3. Lancement de l'environnement Docker
+Depuis le dossier du projet dans Ubuntu :
+```bash
+# Lancer les containers en arrière-plan
+docker compose up -d
+
+# Vérifier que les 4 containers tournent bien
+docker ps
+```
+
+### 4. Initialisation de NodeJS
+Installer les dépendances à l'intérieur du container :
+```bash
+docker compose run app-annonces-node npm install
+```
+
+🌐 Accès aux services
+| Service | URL | Description |
+| :--- | :--- | :--- |
+| **API NodeJS** | [http://localhost:3000](http://localhost:3000) | Votre serveur backend |
+| **Adminer** | [http://localhost:8080](http://localhost:8080) | Gestion de la base de données |
+| **Mailhog** | [http://localhost:8025](http://localhost:8025) | Capture des emails |
+
+### 💡Commandes Utiles
+
+**Arrêter le projet :** docker compose stop
+
+**Tout supprimer (nettoyage) :** docker compose down
+
+**Voir les logs :** docker compose logs -f app-annonces-node
