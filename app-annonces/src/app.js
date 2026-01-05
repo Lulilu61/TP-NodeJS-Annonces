@@ -1,13 +1,14 @@
-const express = require('express'); //récupère la librairie express
-const app = express(); // instance de express 
-const port = 3000;
+const express = require('express'); 
+const app = express(); 
+const PORT = process.env.PORT;
 const initRoutes = require('./routes');
+require('dotenv').config();
 
 app.use(express.json());
 
 initRoutes(app);
 
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
 });
