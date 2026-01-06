@@ -1,10 +1,14 @@
 const { Model, DataTypes } = require('sequelize');
-const { sequelize } = require('.');
 
 const Annonce =  (sequelize, DataTypes) => {
     class Annonce extends Model{
         //implémentation des jointures
-        static associate (models){}
+        static associate (models){
+            this.belongsTo(models.Users, {
+                foreignKey: 'user_id',
+                as: 'User'
+            })
+        }
     }
 
     Annonce.init({
@@ -17,3 +21,4 @@ const Annonce =  (sequelize, DataTypes) => {
         modelName: 'Annonce'
     });
 }
+module.exports = Annonce;
