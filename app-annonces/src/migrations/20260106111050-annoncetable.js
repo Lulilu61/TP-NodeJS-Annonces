@@ -18,7 +18,7 @@ module.exports = {
       },
       price: {
         allowNull: false,
-        type: Sequelize.FLOAT
+        type: Sequelize.DataTypes.DECIMAL(10, 2)
       },
       filepath:{
         allowNull:false,
@@ -45,21 +45,21 @@ module.exports = {
       // Clé étrangère vers Users
       user_id: {
         type: Sequelize.INTEGER,
-        references: { model: 'users', key: 'id' },
+        references: { model: 'Users', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
       },
       // Clé étrangère vers Categories
       category_id: {
         type: Sequelize.INTEGER,
-        references: { model: 'categories', key: 'id' },
+        references: { model: 'Categories', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL'
       },
       published_at: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.fn('now')
+        defaultValue: Sequelize.fn('now'),
       }
     });
   },

@@ -1,24 +1,24 @@
 const express = require('express'); 
 const router = express.Router();
 const validateAnnonce = require('../middlewares/annonces');
-const services = require('../services/annonces');
+const annonceController = require('../controllers/annonce'); 
 
-// Lire toutes les annonces
-router.get('/', services.getAllAnnonces);
+// Middleware pour checker si user est un Admin
+const isAdmin = (req, res, next) => { /* check role */ next(); };
 
-// Lire une seule annonce 
-router.get('/:id', services.getAnnonceById);
+// Récup toutes les annonces
+router.get('/', annonceController.getAllAnnonces);
+
+// Récup une seule annonce 
+router.get('/:id', annonceController.getAnnonceById);
 
 // Créer une annonce
-router.post('/', validateAnnonce, services.createAnnonce);
-
-// Modifier une annonce
-router.put('/:id', validateAnnonce, services.updateAnnonce);
+router.post('/', validateAnnonce, annonceController.createAnnonce);
 
 // Modifier la visibilité d'une annonce
-router.patch('/:id/status', isAdmin, services.updateAnnonceStatus);
+router.patch('/:id/status', isAdmin, annonceController.updateAnnonceStatus);
 
 // Supprimer une annonce
-router.delete('/:id', services.deleteAnnonce);
+router.delete('/:id', annonceController.deleteAnnonce);
 
 module.exports = router;
