@@ -1,29 +1,25 @@
 const jwt = require('jsonwebtoken');
-const { User } = require('../models');
 
-const ValidateAuthentification = (req, res, next) => {
-    const token = req.headers['Authorization'];
-    if (!token) return res.status(401).json({message: 'No token provided'});
+const validateAuthentification = (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1]; 
 
-    jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
-        if(err) returnres.status(403).json({message:'Wrong JWT token'});
-        const user = await User.findOne({where: {token}});
-        if(!user) return res.status(403).json({message: 'Session expired'});
-        req.user = user;
+    if (!token) return res.status(401).json({ message: 'Accès refusé : Token manquant' });
+
+    jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
+        if (err) return res.status(403).json({ message: 'Token invalide ou expiré' });
+        
+        req.user = decoded; 
         next();
-    })
+    });
 };
 
 const isAdmin = (req, res, next) => {
-    const user = req.user; 
-
-    if (user && user.role === 'admin') {
+    if (req.user && req.user.role === 'admin') {
         next();
     } else {
-        res.status(403).json({ 
-            message: "Accès refusé : Droits administrateur requis." 
-        });
+        res.status(403).json({ message: "Droits administrateur requis." });
     }
 };
 
-module.exports = isAdmin;
+module.exports = { validateAuthentification, isAdmin };

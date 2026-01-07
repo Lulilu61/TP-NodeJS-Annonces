@@ -13,14 +13,14 @@ router.get('/', annonceController.getAllAnnonces);
 // Récup une seule annonce 
 router.get('/:id', annonceController.getAnnonceById);
 
-// Créer une annonce
-router.post('/', validateAnnonce, annonceController.createAnnonce);
+// Seul un utilisateur connecté peut créer une annonce
+router.post('/', validateAuthentification, annonceController.createAnnonce);
 
-// Modifier une annonce
-router.put('/:id', annonceController.updateAnnonce);
+// Modifier son annonce
+router.put('/:id', validateAuthentification, annonceController.updateAnnonceContent);
 
-// Modifier la visibilité d'une annonce
-router.patch('/:id', annonceController.updateAnnonce);
+// L'Admin modifie la visibilité d'une annonce
+router.patch('/:id/moderate', validateAuthentification, isAdmin, annonceController.moderateAnnonce);
 
 // Supprimer une annonce
 router.delete('/:id', annonceController.deleteAnnonce);

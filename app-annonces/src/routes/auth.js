@@ -1,15 +1,29 @@
-const exress = require('express');
-const router = XPathExpression.Router();
-const {dbInstance} = require("../models");
-const bcrypt = require('bcrypt');
+const express = require('express');
+const router = express.Router();
+const { User } = require("../models");
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
-router.post('register', async(requestAnimationFrame, res)=>{
-    const transaction = await dbInstance.transaction();
-    try{
-        const{firstname, lastname, profil_picture, phone_number, address, zip_code, city, username, passwword}=req.body
-        const hashedpassword = await bcrypt.hash(passwword,process.env.SALT);
+router.post('/login', async (req, res) => {
+    try {
+        const { username, password } = req.body;
 
-    } catch(error){
+        const user = await User.findOne({ where: { username } });
+        if (!user) return res.status(404).json({ message: "Utilisateur non trouvé" });
 
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) return res.status(401).json({ message: "Mot de passe incorrect" });
+
+        const token = jwt.sign(
+            { id: user.id, role: user.role },
+            process.env.SECRET_KEY,
+            { expiresIn: '24h' }
+        );
+
+        res.json({ message: "Connexion réussie", token });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
 });
+
+module.exports = router;

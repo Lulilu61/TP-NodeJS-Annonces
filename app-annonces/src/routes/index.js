@@ -1,7 +1,8 @@
-// Centraliser l'ensemble des routes et imbriquers les routes dans une fonction pour l'utiliser dans app.js
+// Centraliser l'ensemble des routes et imbriquer les routes dans une fonction pour l'utiliser dans app.js
 
 const annoncesRoutes = require('./annonce');
 const userRoutes = require('./user');
+const authRoutes = require('./auth');
 
 const initRoutes = (app) => {
     app.use('/home', (req, res, next) => {
@@ -9,7 +10,8 @@ const initRoutes = (app) => {
     });
 
     app.use('/annonces', annoncesRoutes);
-    app.use('/users', userRoutes); 
+    app.use('/users', userRoutes);
+    app.use('/auth', authRoutes);
 }
 
 module.exports = initRoutes;

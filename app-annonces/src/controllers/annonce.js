@@ -36,21 +36,38 @@ exports.createAnnonce = async (req, res) => {
 };
 
 // Modifier une annonce
-exports.updateAnnonce = async (req, res) => {
+exports.updateAnnonceContent = async (req, res) => {
     try {
         const { id } = req.params;
-
         const annonce = await annonceService.findById(id);
-        if (!annonce) {
-            return res.status(404).json({ message: "Désolé, cette annonce n'existe pas." });
+
+        if (!annonce) return res.status(404).json({ message: "Annonce introuvable" });
+
+        // Seul l'auteur peut modifier le contenu 
+        if (annonce.user_id !== req.user.id) {
+            return res.status(403).json({ message: "Action interdite : Vous n'êtes pas l'auteur de cette annonce." });
         }
 
-        await annonceService.update(id, req.body);
+        const { title, description, price, filepath } = req.body;
         
-        res.status(200).json({ 
-            message: "L'annonce a été mise à jour !",
-            data: req.body
-        });
+        await annonceService.update(id, { title, description, price, filepath });
+        res.status(200).json({ message: "Votre annonce a été mise à jour !" });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+exports.moderateAnnonce = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { status, admin_comment } = req.body;
+
+        const annonce = await annonceService.findById(id);
+        if (!annonce) return res.status(404).json({ message: "Annonce introuvable" });
+
+        await annonceService.updateStatus(id, status, admin_comment);
+        
+        res.status(200).json({ message: "Modération appliquée avec succès." });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
