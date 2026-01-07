@@ -38,20 +38,18 @@ exports.createAnnonce = async (req, res) => {
 // Modifier une annonce
 exports.updateAnnonce = async (req, res) => {
     try {
-        const updated = await annonceService.update(req.params.id, req.body);
-        res.status(200).json({ message: 'Annonce mise à jour' });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-};
+        const { id } = req.params;
 
-// Modération : Changement de statut de l'annonce par l'Admin
-exports.updateAnnonceStatus = async (req, res) => {
-    try {
-        const { status, admin_comment } = req.body;
-        await annonceService.update(req.params.id, { status, admin_comment });
+        const annonce = await annonceService.findById(id);
+        if (!annonce) {
+            return res.status(404).json({ message: "Désolé, cette annonce n'existe pas." });
+        }
+
+        await annonceService.update(id, req.body);
+        
         res.status(200).json({ 
-            message: `Statut mis à jour pour l'annonce ${req.params.id}` 
+            message: "L'annonce a été mise à jour !",
+            data: req.body
         });
     } catch (error) {
         res.status(500).json({ error: error.message });

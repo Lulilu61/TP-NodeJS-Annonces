@@ -1,5 +1,6 @@
 const { User } = require('../models');
 const bcrypt = require('bcryptjs');
+const db = require('../models');
 
 module.exports = {
     registerUser,
@@ -9,12 +10,29 @@ module.exports = {
 
 async function registerUser(req, res) {
     try {
-        const { email, password, name, role } = req.body;
+        const { 
+            first_name, 
+            last_name, 
+            username, 
+            email, 
+            password, 
+            role, 
+            city, 
+            zip_code, 
+            phone_number, 
+            address, 
+            profile_picture 
+        } = req.body;
 
-        // Vérification si utilisateur existe déjà
-        const existingUser = await User.findOne({ where: { email } });
+        // Vérification si utilisateur existe déjà (par email OU username)
+        const existingUser = await db.User.findOne({ 
+            where: { 
+                [db.Sequelize.Op.or]: [{ email }, { username }] 
+            } 
+        });
+        
         if (existingUser) {
-            return res.status(400).json({ message: "Cet email est déjà utilisé." });
+            return res.status(400).json({ message: "L'email ou le nom d'utilisateur est déjà utilisé." });
         }
 
         // Hachage mot de passe
@@ -22,16 +40,28 @@ async function registerUser(req, res) {
         const hashedPassword = await bcrypt.hash(password, salt);
 
         // Création dans base de données
-        const newUser = await User.create({
-            name,
+        const newUser = await db.User.create({
+            first_name,
+            last_name,
+            username,
             email,
             password: hashedPassword,
-            role: role || 'annonceur'
+            role: role || 'annonceur',
+            city,
+            zip_code,
+            phone_number,
+            address,
+            profile_picture
         });
 
         res.status(201).json({
             message: "Utilisateur créé !",
-            user: { id: newUser.id, email: newUser.email, name: newUser.name }
+            user: { 
+                id: newUser.id, 
+                username: newUser.username, 
+                email: newUser.email,
+                full_name: `${newUser.first_name} ${newUser.last_name}`
+            }
         });
     } catch (error) {
         res.status(500).json({ error: error.message });

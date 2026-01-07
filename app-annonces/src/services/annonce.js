@@ -1,14 +1,28 @@
 const db = require('../models');
+const { sendEmail } = require('../utils/mailer');
 
 module.exports = {
     create: async (data) => {
         if (!db.Annonce) {
-            console.log("Modèles dispos :", Object.keys(db));
             throw new Error("Le modèle 'Annonce' n'a pas été chargé");
         }
-        return await db.Annonce.create(data);
+
+        const newAnnonce = await db.Annonce.create(data);
+        sendEmail(
+            process.env.MAIL_ADMIN,
+            'Nouvelle annonce publiée !',
+            `Une nouvelle annonce intitulée "${data.title}" vient d'être créée.`,
+            `<html><h1>Confirmation</h1><p>L'annonce <b>${data.title}</b> est en ligne.</p></html>`
+        );
+
+        return newAnnonce;
     },
-    
+
+    update: async (id, data) => {
+        const updated = await db.Annonce.update(data, { where: { id } });
+        return updated;
+    },
+
     findAll: async (filters) => {
         return await db.Annonce.findAll({ where: filters });
     },
@@ -16,9 +30,8 @@ module.exports = {
     findById: async (id) => {
         return await db.Annonce.findByPk(id);
     },
-    
-    update: async (id, data) => {
 
-        return await db.Annonce.update(data, { where: { id } });
-    }
+    delete: async (id) => {
+    return await db.Annonce.destroy({ where: { id } });
+}
 };
