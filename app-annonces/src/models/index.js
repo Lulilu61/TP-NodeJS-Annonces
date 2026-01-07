@@ -1,7 +1,7 @@
 const Sequelize = require ('sequelize');
 const fs = require ('fs');
 const path = require('path');
-const basename = path.basename(_filename);
+const basename = path.basename(__filename);
 require('dotenv').config();
 
 const db = {};
@@ -31,7 +31,7 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
-module.exports = {
-    Sequelize,
-    dbInstance
-}
+db.sequelize = dbInstance;
+db.Sequelize = Sequelize;
+
+module.exports = db;
