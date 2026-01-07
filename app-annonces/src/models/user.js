@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.ENUM("admin", "annonceur"),
         defaultValue: "annonceur",
       },
+      token: { type: DataTypes.TEXT, allowNull: true },
     },
     {
       sequelize,

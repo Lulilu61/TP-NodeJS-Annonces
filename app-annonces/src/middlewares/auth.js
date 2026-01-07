@@ -1,15 +1,21 @@
 const jwt = require('jsonwebtoken');
+const { User } = require('../models');
 
-const validateAuthentification = (req, res, next) => {
+const validateAuthentification = async (req, res, next) => {
     const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1]; 
+    const token = authHeader && authHeader.split(' ')[1];
 
-    if (!token) return res.status(401).json({ message: 'Accès refusé : Token manquant' });
+    if (!token) return res.status(401).json({ message: 'Token manquant' });
 
-    jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
-        if (err) return res.status(403).json({ message: 'Token invalide ou expiré' });
+    jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
+        if (err) return res.status(403).json({ message: 'Token invalide' });
+
+        const user = await User.findOne({ where: { id: decoded.id, token: token } });
         
-        req.user = decoded; 
+        if (!user) {
+            return res.status(401).json({ message: 'Session expirée ou déconnectée' });
+        }
+        req.user = user;
         next();
     });
 };
