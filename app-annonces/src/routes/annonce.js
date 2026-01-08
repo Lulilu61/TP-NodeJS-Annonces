@@ -3,6 +3,7 @@ const router = express.Router();
 const validateAnnonce = require('../middlewares/annonce');
 const { validateAuthentification } = require('../middlewares/auth');
 const annonceController = require('../controllers/annonce'); 
+const { multiplicate } = require('../services/annonce');
 
 // Middleware pour checker si user est un Admin
 const isAdmin = (req, res, next) => {next(); };

@@ -1,4 +1,4 @@
-const mailer = require("../utils/mailer");
+const { Report, Annonce } = require('../models');
 const { sendEmail } = require('../utils/mailer');
 
 exports.createReport = async (req, res) => {
@@ -8,8 +8,8 @@ exports.createReport = async (req, res) => {
 
     const newReport = await Report.create({
       reporter_email,
-      message,
       annonce_id,
+      message
     });
 
     await sendEmail(
