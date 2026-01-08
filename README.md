@@ -1,4 +1,4 @@
-# 🚀 Projet Backend NodeJS - TP Annonces
+# Projet Backend NodeJS - TP Annonces
 
 Ce projet est une API de gestion d'annonces développée avec **Node.js** et **Express**. L'environnement est entièrement conteneurisé avec **Docker** pour garantir une stabilité maximale entre les différents postes de développement.
 
@@ -57,3 +57,27 @@ docker compose run app-annonces-node npm install
 **Tout supprimer (nettoyage) :** docker compose down OU docker compose down --remove orphans si WARN found orphan container au lancement des dockers
 
 **Voir les logs :** docker compose logs -f app-annonces-node
+
+### 🛠 Guide d'utilisation de l'API (Postman)
+Ce guide répertorie les points d'entrée (endpoints) de l'application. Pour toutes les requêtes nécessitant un Token, utilisez l'onglet Authorization > Bearer Token dans Postman.
+
+## 🔐 Authentification & Utilisateurs
+| Action | Méthode | URL | Token Requis | Body (JSON) |
+| :--- | :--- | :--- | :--- | :--- |
+| **Inscription** | `POST` | `http://localhost:3000/users/register` | Non | `{"first_name":"", "last_name":"", "username":"", "email":"", "password":"", "role":"annonceur", "phone_number":"", "address":"", "zip_code":"", "city":"", "profile_picture":""}` |
+| **Connexion** | `POST` | `http://localhost:3000/auth/login` | Non | `{"username":"", "password":""}` |
+| **Déconnexion** | `POST` | `http://localhost:3000/auth/logout` | **Oui** | *(Vide)* |
+
+## 📢 Gestion des Annonces
+| Action | Méthode | URL | Token Requis | Body (JSON) |
+| :--- | :--- | :--- | :--- | :--- |
+| **Créer une annonce** | `POST` | `http://localhost:3000/annonces` | **Oui** | `{"title":"", "description":"", "price":0, "category_id":1, "filepath":""}` |
+| **Modifier (Complet)** | `PUT` | `http://localhost:3000/annonces/:id` | **Oui (Auteur)** | `{"title":"", "description":"", "price":0, "category_id":1, "filepath":""}` |
+| **Modifier (Partiel)** | `PATCH` | `http://localhost:3000/annonces/:id` | **Oui (Auteur)** | `{"price": 10.5}` |
+| **Supprimer** | `DELETE` | `http://localhost:3000/annonces/:id` | **Oui (Auteur)** | *(Vide)* |
+| **Modérer (Admin)** | `PATCH` | `http://localhost:3000/annonces/:id/moderate` | **Oui (Admin)** | `{"status":"non-visible", "admin_comment":""}` |
+
+## 🚩 Signalements
+| Action | Méthode | URL | Token Requis | Body (JSON) |
+| :--- | :--- | :--- | :--- | :--- |
+| **Signaler** | `POST` | `http://localhost:3000/reports` | **Oui** | `{"annonce_id": 1, "message": ""}` |
