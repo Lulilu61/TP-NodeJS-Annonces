@@ -3,7 +3,7 @@
 Ce projet est une API de gestion d'annonces développée avec **Node.js** et **Express**. L'environnement est entièrement conteneurisé avec **Docker** pour garantir une stabilité maximale entre les différents postes de développement.
 
 ## 🛠 Architecture & Environnement
-Le projet utilise une architecture moderne basée sur :
+Le projet utilise une architecture basée sur :
 * **WSL2 (Ubuntu)** : Pour un environnement d'exécution Linux natif sur Windows.
 * **Docker & Docker Compose** : Pour isoler les services (Node, Base de données, etc.).
 * **MariaDB** : Système de gestion de base de données.
@@ -23,8 +23,10 @@ Suivez ces étapes pour lancer le projet sur votre machine :
 ### 2. Clonage du projet
 Ouvrez votre terminal Ubuntu et exécutez :
 ```bash
+sudo apt install git -y
 git clone [https://github.com/Lulilu61/TP-NodeJS-Annonces.git](https://github.com/Lulilu61/TP-NodeJS-Annonces.git)
 cd TP-NodeJS-Annonces
+docker compose build
 ```
 
 ### 3. Lancement de l'environnement Docker
@@ -40,7 +42,12 @@ docker ps
 ### 4. Initialisation de NodeJS
 Installer les dépendances à l'intérieur du container :
 ```bash
-docker compose run app-annonces-node npm install
+docker compose run app-annonces-node npm install express
+docker compose exec app-annonces-node npm install bcryptjs
+docker compose run app-annonces-node npm install nodemailer
+docker compose run app-annonces-node npm install jsonwebtoken
+docker compose run app-annonces-node npm install jest
+docker compose run app-annonces-node npm install supertest
 ```
 
 🌐 Accès aux services
@@ -52,11 +59,20 @@ docker compose run app-annonces-node npm install
 
 ### 💡Commandes Utiles
 
+**Lancer les containers :** docker compose up -d
+
 **Arrêter le projet :** docker compose stop
 
 **Tout supprimer (nettoyage) :** docker compose down OU docker compose down --remove orphans si WARN found orphan container au lancement des dockers
 
 **Voir les logs :** docker compose logs -f app-annonces-node
+
+**Lancer les migrations :** docker compose run app-annonces-node npx sequelize-cli db:migrate --migrations-path ./src/migrations
+
+**Donner les droits pour les migrations :** sudo chown -R user:user chemin (ici: ./app-annonces/src/migrations)
+**Attention !** ne pas le faire à la racine du projet sinon ça fait tout planter !
+
+**Undo toutes les migrations :** docker compose run app-annonces-node npx sequelize-cli db:migrate:undo:all --migrations-path chemin (ici:./src/migrations)
 
 ### 🛠 Guide d'utilisation de l'API (Postman)
 Ce guide répertorie les points d'entrée (endpoints) de l'application. Pour toutes les requêtes nécessitant un Token, utilisez l'onglet Authorization > Bearer Token dans Postman.
