@@ -3,6 +3,7 @@
 const annoncesRoutes = require('./annonce');
 const userRoutes = require('./user');
 const authRoutes = require('./auth');
+const reportRoutes = require('./report');
 
 const initRoutes = (app) => {
     app.use('/home', (req, res, next) => {
@@ -12,6 +13,7 @@ const initRoutes = (app) => {
     app.use('/annonces', annoncesRoutes);
     app.use('/users', userRoutes);
     app.use('/auth', authRoutes);
+    app.use('/reports', reportRoutes);
 }
 
 module.exports = initRoutes;

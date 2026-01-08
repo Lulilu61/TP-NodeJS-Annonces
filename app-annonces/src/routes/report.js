@@ -1,14 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const reportController = require('../controllers/report');
+const { validateAuthentification } = require('../middlewares/auth');
 
-router.post('/', (req, res) => {
-    const { userEmail, message, annonceLink } = req.body;
-    
-    // Envoyer un mail à l'admin (via Mailhog plus tard)
-    res.status(201).json({
-        message: "Signalement envoyé à l'administrateur",
-        sentData: { userEmail, message, annonceLink }
-    });
-});
+router.post('/', validateAuthentification, reportController.createReport);
 
 module.exports = router;
