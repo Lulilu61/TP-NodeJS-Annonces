@@ -9,6 +9,11 @@ app.use(express.json());
 
 initRoutes(app);
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// On ne lance le serveur QUE si on n'est pas en train de faire des tests
+if (process.env.NODE_ENV !== 'test') {
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}
+
+module.exports = app;

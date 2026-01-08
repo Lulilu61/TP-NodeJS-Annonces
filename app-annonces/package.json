@@ -4,7 +4,7 @@
   "description": "Annonces en ligne",
   "main": "src/app.js",
   "scripts": {
-    "test": "test",
+    "test": "jest --runInBand --detectOpenHandles",
     "dev": "nodemon src/app.js"
   },
   "keywords": [],
@@ -20,7 +20,8 @@
     "jsonwebtoken": "^9.0.3",
     "mariadb": "^3.4.5",
     "nodemailer": "^7.0.12",
-    "sequelize": "^6.37.7"
+    "sequelize": "^6.37.7",
+    "supertest": "^7.2.2"
   },
   "devDependencies": {
     "sequelize-cli": "^6.6.5"
