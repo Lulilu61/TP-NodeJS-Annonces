@@ -16,8 +16,8 @@ module.exports = {
         references: { model: 'Annonces', key: 'id' },
         onUpdate: 'CASCADE', onDelete: 'CASCADE'
       },
-      createdAt: { allowNull: false, type: Sequelize.DATE },
-      updatedAt: { allowNull: false, type: Sequelize.DATE }
+      created_at: { allowNull: false, type: Sequelize.DATE },
+      updated_at: { allowNull: false, type: Sequelize.DATE }
     });
   },
   down: async (queryInterface, Sequelize) => {

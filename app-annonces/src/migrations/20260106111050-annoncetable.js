@@ -29,12 +29,12 @@ module.exports = {
         type: Sequelize.ENUM('visible', 'non-visible'),
         defaultValue: 'visible'
       },
-      createdAt:{
+      created_at:{
         allowNull:false,
         type: Sequelize.DataTypes.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
-      updatedAt:{
+      updated_at:{
         allowNull:false,
         type: Sequelize.DataTypes.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
@@ -55,11 +55,6 @@ module.exports = {
         references: { model: 'Categories', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL'
-      },
-      published_at: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.fn('now'),
       }
     });
   },

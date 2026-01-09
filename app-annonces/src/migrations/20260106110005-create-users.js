@@ -32,6 +32,10 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.fn("now"),
       },
+      token: {
+        type: Sequelize.TEXT,
+        allowNull: true,
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {
