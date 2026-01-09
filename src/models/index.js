@@ -4,10 +4,21 @@ const path = require('path');
 const basename = path.basename(__filename);
 require('dotenv').config();
 
+
 const db = {};
 
 // dbInstance n'est pas un objet, c'est un tableau
-const dbInstance = new Sequelize(`mariadb://${process.env.MARIADB_USERNAME}:${process.env.MARIADB_PASSWORD}@${process.env.MARIADB_HOST}:${process.env.MARIADB_PORT}/${process.env.MARIADB_DATABASE}`)
+//const dbInstance = new Sequelize(`mariadb://${process.env.MARIADB_USERNAME}:${process.env.MARIADB_PASSWORD}@${process.env.MARIADB_HOST}:${process.env.MARIADB_PORT}/${process.env.MARIADB_DATABASE}`)
+
+const env = process.env.NODE_ENV || 'development';
+const config = require(path.join(__dirname, '..', 'config', 'config.js'))[env];
+
+const dbInstance = new Sequelize(
+  config.database,
+  config.username,
+  config.password,
+  config
+);
 
 // Instanciation des différents modèles
 fs
