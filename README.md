@@ -43,6 +43,7 @@ docker ps
 Installer les dépendances à l'intérieur du container :
 ```bash
 docker compose run app-annonces-node npm install express
+docker compose run app-annonces-node npm install sequelize
 docker compose exec app-annonces-node npm install bcryptjs
 docker compose run app-annonces-node npm install nodemailer
 docker compose run app-annonces-node npm install jsonwebtoken
@@ -105,7 +106,7 @@ docker compose run app-annonces-node npx sequelize-cli db:seed:all --seeders-pat
  docker compose run app-annonces-node npx sequelize-cli db:seed:undo:all --seeders-path ./src/seeders
 ```
 
-### 6. Guide d'utilisation de l'API avec Postman
+## 6. Guide d'utilisation de l'API avec Postman
 Ce guide répertorie les points d'entrée (endpoints) de l'application. Pour toutes les requêtes nécessitant un Token, utilisez l'onglet Authorization > Bearer Token dans Postman.
 
 ## 🔐 Authentification & Utilisateurs
