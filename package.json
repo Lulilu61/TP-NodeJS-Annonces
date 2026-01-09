@@ -7,12 +7,13 @@
     "start": "npx sequelize-cli db:migrate && node src/app.js",
     "test": "jest --runInBand --detectOpenHandles",
     "dev": "nodemon src/app.js"
-},
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "sequelize-cli": "^6.6.5",
     "bcryptjs": "^3.0.3",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
