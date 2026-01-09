@@ -11,7 +11,7 @@ const db = {};
 //const dbInstance = new Sequelize(`mariadb://${process.env.MARIADB_USERNAME}:${process.env.MARIADB_PASSWORD}@${process.env.MARIADB_HOST}:${process.env.MARIADB_PORT}/${process.env.MARIADB_DATABASE}`)
 
 const env = process.env.NODE_ENV || 'development';
-const config = require(path.join(__dirname, '..', 'config', 'config.js'))[env];
+const config = require(path.join(__dirname, '..', '..', 'config', 'config.js'))[env];
 
 const dbInstance = new Sequelize(
   config.database,
