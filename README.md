@@ -55,26 +55,57 @@ docker compose run app-annonces-node npm install supertest
 | :--- | :--- | :--- |
 | **API NodeJS** | [http://localhost:3000](http://localhost:3000) | Votre serveur backend |
 | **Adminer** | [http://localhost:8080](http://localhost:8080) | Gestion de la base de données |
-| **Mailhog** | [http://localhost:8025](http://localhost:8025) | Capture des emails |
+| **Mailhog** | [http://localhost:8025](http://localhost:8025) | Réception des emails |
 
-### 💡Commandes Utiles
+### 5. Lancer le projet : commandes
+## Rappel commandes :
+**Lancer les containers :** 
+```bash
+docker compose up -d
+```
+**Arrêter le projet :**
+```bash
+docker compose stop
+```
+**Tout supprimer (nettoyage) :**
+```bash
+docker compose down
+```
+OU
+```bash
+docker compose down --remove orphans
+```
+si WARN found orphan container au lancement des dockers
 
-**Lancer les containers :** docker compose up -d
-
-**Arrêter le projet :** docker compose stop
-
-**Tout supprimer (nettoyage) :** docker compose down OU docker compose down --remove orphans si WARN found orphan container au lancement des dockers
-
-**Voir les logs :** docker compose logs -f app-annonces-node
-
-**Lancer les migrations :** docker compose run app-annonces-node npx sequelize-cli db:migrate --migrations-path ./src/migrations
-
-**Donner les droits pour les migrations :** sudo chown -R user:user chemin (ici: ./app-annonces/src/migrations)
+**Voir les logs :** 
+```bash
+docker compose logs -f app-annonces-node
+```
+## Lancement :
+**Lancer les migrations :** 
+```bash
+docker compose run app-annonces-node npx sequelize-cli db:migrate --migrations-path ./src/migrations
+```
+**Donner les droits pour les migrations :** 
+```bash
+sudo chown -R user:user ./app-annonces/src/migrations
+```
 **Attention !** ne pas le faire à la racine du projet sinon ça fait tout planter !
 
-**Undo toutes les migrations :** docker compose run app-annonces-node npx sequelize-cli db:migrate:undo:all --migrations-path chemin (ici:./src/migrations)
+**Undo toutes les migrations :**
+```bash
+docker compose run app-annonces-node npx sequelize-cli db:migrate:undo:all --migrations-path ./src/migrations
+```
+**Lancer les seeders :** 
+```bash
+docker compose run app-annonces-node npx sequelize-cli db:seed:all --seeders-path ./src/seeders
+```
+**Undo les seeders :**
+```bash
+ docker compose run app-annonces-node npx sequelize-cli db:seed:undo:all --seeders-path ./src/seeders
+```
 
-### 🛠 Guide d'utilisation de l'API (Postman)
+### 6. Guide d'utilisation de l'API avec Postman
 Ce guide répertorie les points d'entrée (endpoints) de l'application. Pour toutes les requêtes nécessitant un Token, utilisez l'onglet Authorization > Bearer Token dans Postman.
 
 ## 🔐 Authentification & Utilisateurs
