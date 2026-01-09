@@ -7,7 +7,7 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    command: 'npm run dev'
+    command: /bin/sh -c "npx sequelize-cli db:migrate && npm run dev"
     depends_on:
        - 'app-annonces-db'
        - 'app-annonces-mailhog'

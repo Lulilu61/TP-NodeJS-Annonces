@@ -4,9 +4,10 @@
   "description": "Annonces en ligne",
   "main": "src/app.js",
   "scripts": {
+    "start": "npx sequelize-cli db:migrate && node src/app.js",
     "test": "jest --runInBand --detectOpenHandles",
     "dev": "nodemon src/app.js"
-  },
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
